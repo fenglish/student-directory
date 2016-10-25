@@ -6,7 +6,7 @@ end
 def print(students)
     count = 0
     while count < students.count
-        text = "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort), and you like #{students[count][:food]}!"
+        text = "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort)"
         puts text.center(text.length + 20)
         count += 1
     end
@@ -17,28 +17,55 @@ def print_footer(names)
 end
 
 def input_students
-    puts "Please enter the names of the students"
-    puts "To finish, just hit return twice"
+    
     #create an empty array
     students = []
-    # get the first name
+    # get the name & the cohort
+    ask_info
     name = gets.chomp
-    puts "Tell me your favorite food!"
-    food = gets.chomp
-    # while the name is not empty, repeat this code
-    while !name.empty? do
-        # add the student hash to the array
-        students << {name: name, cohort: :november, food: food}
-        puts "Now we have #{students.count} students"
-        # get another name from the user
-        name = gets.chomp
-        if !name.empty?
-            puts "Tell me what is your favorite food!"
-            food = gets.chomp
+    cohort = gets.chomp
+    
+    # while the name & the cohort are not empty, repeat this code
+    while !name.empty? || !cohort.empty? do
+        name = "Anonymous" if name.empty?
+        cohort = "november" if cohort.empty?
+        confirm_info(name, cohort)
+        conf_n = gets.chomp
+        
+        # while their info are wrong, repeat this code
+        while conf_n != "1"
+            ask_info
+            name = gets.chomp
+            cohort = gets.chomp
+            name = "Anonymous" if name.empty?
+            cohort = "november" if cohort.empty?
+            confirm_info(name, cohort)
+            conf_n = gets.chomp
         end
+    
+        # add the student hash to the array
+        students << {name: name, cohort: cohort.to_sym}
+        puts "Now we have #{students.count} students"
+        # get another info from the user
+        ask_info
+        name = gets.chomp
+        cohort = gets.chomp
     end
     # return the array of students
     students
+end
+
+def ask_info
+    puts ""
+    puts "Please enter the names of the students first,"
+    puts "then enter the cohort of the students"
+    puts "To finish, just hit return twice"
+    puts "> "
+end
+
+def confirm_info(name, cohort)
+    puts "Name: [#{name}], Cohort: [#{cohort}]"
+    puts "Yes => 1, No => 2"
 end
 
 # nothing happens until we call the methods
