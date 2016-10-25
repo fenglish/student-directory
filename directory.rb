@@ -45,7 +45,11 @@ def input_students
     
         # add the student hash to the array
         students << {name: name, cohort: cohort.to_sym}
-        puts "Now we have #{students.count} students"
+        
+        # singular form when appropriate and plural form otherwise
+        students.count > 1 ? s_or_p = "students" : s_or_p = "student"
+        puts "Now we have #{students.count} #{s_or_p}"
+        
         # get another info from the user
         ask_info
         name = gets.chomp
