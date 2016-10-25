@@ -6,7 +6,8 @@ end
 def print(students)
     count = 0
     while count < students.count
-        puts "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort), and you like #{students[count][:food]}!"
+        text = "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort), and you like #{students[count][:food]}!"
+        puts text.center(text.length + 20)
         count += 1
     end
 end
@@ -32,7 +33,7 @@ def input_students
         # get another name from the user
         name = gets.chomp
         if !name.empty?
-            puts "Tell me your favorite food!"
+            puts "Tell me what is your favorite food!"
             food = gets.chomp
         end
     end
