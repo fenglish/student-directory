@@ -22,25 +22,25 @@ def input_students
     students = []
     # get the name & the cohort
     ask_info
-    name = gets.chomp
-    cohort = gets.chomp
+    name = gets.rstrip
+    cohort = gets.rstrip
     
     # while the name & the cohort are not empty, repeat this code
     while !name.empty? || !cohort.empty? do
         name = "Anonymous" if name.empty?
         cohort = "november" if cohort.empty?
         confirm_info(name, cohort)
-        conf_n = gets.chomp
+        conf_n = gets.rstrip
         
         # while their info are wrong, repeat this code
         while conf_n != "1"
             ask_info
-            name = gets.chomp
-            cohort = gets.chomp
+            name = gets.rstrip
+            cohort = gets.rstrip
             name = "Anonymous" if name.empty?
             cohort = "november" if cohort.empty?
             confirm_info(name, cohort)
-            conf_n = gets.chomp
+            conf_n = gets.rstrip
         end
     
         # add the student hash to the array
@@ -49,11 +49,11 @@ def input_students
         # singular form when appropriate and plural form otherwise
         students.count > 1 ? s_or_p = "students" : s_or_p = "student"
         puts "Now we have #{students.count} #{s_or_p}"
-        
+
         # get another info from the user
         ask_info
-        name = gets.chomp
-        cohort = gets.chomp
+        name = gets.rstrip
+        cohort = gets.rstrip
     end
     # return the array of students
     students
