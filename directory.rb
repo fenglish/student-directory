@@ -1,14 +1,14 @@
 def print_header
     puts "The students of Villains Academy"
-    puts "-------------"
+    puts "-----------------------------------"
 end
 
 def print(students)
-    count = 0
-    while count < students.count
-        text = "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort)"
-        puts text.center(text.length + 20)
-        count += 1
+    list_cohorts = students.map{|student| student[:cohort]}.uniq
+    list_cohorts.each do |chrt|
+        puts "[The #{chrt} cohort]:"
+        puts students.map{|student| student[:name] if student[:cohort] == chrt }.compact
+        puts ""
     end
 end
 
