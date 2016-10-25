@@ -1,19 +1,17 @@
-def print_header
-    puts "The students of Villains Academy"
-    puts "-----------------------------------"
-end
-
 def print(students)
-    list_cohorts = students.map{|student| student[:cohort]}.uniq
-    list_cohorts.each do |chrt|
-        puts "[The #{chrt} cohort]:"
-        puts students.map{|student| student[:name] if student[:cohort] == chrt }.compact
-        puts ""
+    if students.count != 0
+        puts "The students of Villains Academy"
+        puts "-----------------------------------"
+        list_cohorts = students.map{|student| student[:cohort]}.uniq
+        list_cohorts.each do |chrt|
+            puts "[The #{chrt} cohort]:"
+            puts students.map{|student| student[:name] if student[:cohort] == chrt }.compact
+            puts ""
+        end
+        puts "Overall, we have #{students.count} great students"
+    else
+        puts "You haven't enter any student's info yet."
     end
-end
-
-def print_footer(names)
-    puts "Overall, we have #{names.count} great students"
 end
 
 def input_students
@@ -74,6 +72,4 @@ end
 
 # nothing happens until we call the methods
 students = input_students
-print_header
 print(students)
-print_footer(students)
