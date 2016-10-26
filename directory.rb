@@ -1,39 +1,44 @@
+# an empty array accessible to all methods
+@students = []
+
 def interactive_menu
-    students = []
     loop do
-        # 1. print the menu and ask the user what to do
-        puts "1. Input the students"
-        puts "2. Show the students"
-        puts "9. Exit"
-        # 2. read the input and save it into a variable
-        selection = gets.chomp
-        # 3. do what the user has asked
-        case selection
-            when "1"
-                students = input_students
-            when "2"
-                print_header
-                print(students)
-                print_footer(students)
-            when "9"
-                exit # this will cause the program to terminate
-            else
-                puts "I don't know what you meant, try again"
-        end
+        print_menu
+        process(gets.chomp)
     end
 end
+
+def print_menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+end
+
+def process(selection)
+    case selection
+        when "1"
+            input_students
+        when "2"
+            show_students
+        when "9"
+            exit # this will cause the program to terminate
+        else
+            puts "I don't know what you meant, try again"
+    end
+end
+
 
 def print_header
     puts "The students of Villains Academy"
     puts "-------------"
 end
 
-def print(students)
-    if students.count != 0
-        list_cohorts = students.map{|student| student[:cohort]}.uniq
+def print_students_list
+    if @students.count != 0
+        list_cohorts = @students.map{|student| student[:cohort]}.uniq
         list_cohorts.each do |chrt|
             puts "[The #{chrt} cohort]:"
-            puts students.map{|student| student[:name] if student[:cohort] == chrt }.compact
+            puts @students.map{|student| student[:name] if student[:cohort] == chrt }.compact
             puts ""
         end
     else
@@ -41,14 +46,11 @@ def print(students)
     end
 end
 
-def print_footer(names)
-    puts "Overall, we have #{names.count} great students"
+def print_footer
+    puts "Overall, we have #{@students.count} great students"
 end
 
 def input_students
-    
-    #create an empty array
-    students = []
     # get the name & the cohort
     ask_info
     name = gets.rstrip
@@ -73,11 +75,11 @@ def input_students
         end
     
         # add the student hash to the array
-        students << {name: name, cohort: cohort.to_sym}
+        @students << {name: name, cohort: cohort.to_sym}
         
         # singular form when appropriate and plural form otherwise
-        students.count > 1 ? s_or_p = "students" : s_or_p = "student"
-        puts "Now we have #{students.count} #{s_or_p}"
+        @students.count > 1 ? s_or_p = "students" : s_or_p = "student"
+        puts "Now we have #{@students.count} #{s_or_p}"
 
         # get another info from the user
         ask_info
@@ -85,7 +87,7 @@ def input_students
         cohort = gets.rstrip
     end
     # return the array of students
-    students
+    @students
 end
 
 def ask_info
@@ -101,6 +103,11 @@ def confirm_info(name, cohort)
     puts "Yes => 1, No => 2"
 end
 
+def show_students
+    print_header
+    print_students_list
+    print_footer
+end
+
 # nothing happens until we call the methods
 interactive_menu
-
