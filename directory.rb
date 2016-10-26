@@ -56,12 +56,12 @@ def load(filename)
     filename = STDIN.gets.chomp
     @students = []
   end
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    add(name, cohort)
-  end
-  file.close
+  File.open(filename, "r"){|file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      add(name, cohort)
+    end
+  }
 end
 
 def add(name, cohort = "november")
@@ -91,14 +91,14 @@ def save
   puts "Please enter the filename to save:"
   filename = STDIN.gets.chomp
   # open the file for writing
-  file = File.open(filename, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  end
-  file.close
+  File::open(filename, "w"){|file|
+    # iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
+  } 
 end
 
 def try_load
@@ -114,9 +114,7 @@ def try_load
 end
 
 def feedback(action)
-  puts ""
-  puts "#{action} successfully!"
-  puts ""
+  puts "\n#{action} successfully!\n\n"
 end
 
 try_load
