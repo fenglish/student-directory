@@ -27,7 +27,8 @@ def process(selection)
         save
         feedback(action = "Save")
       when "4" 
-        load
+        filename = "none"
+        load(filename)
         feedback(action = "Load")
       when "9" then exit # this will cause the program to terminate
       else
@@ -49,7 +50,12 @@ def input
   
 end
 
-def load(filename = "students.csv")
+def load(filename)
+  if filename == "none"
+    puts "Please enter the filename to load:"
+    filename = STDIN.gets.chomp
+    @students = []
+  end
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
@@ -70,7 +76,7 @@ end
 
 def header
   puts "The students of Villains Academy"
-  puts "-------------"
+  puts "----------------------"
 end
 
 def student_list
@@ -82,8 +88,10 @@ def footer
 end
 
 def save
+  puts "Please enter the filename to save:"
+  filename = STDIN.gets.chomp
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
