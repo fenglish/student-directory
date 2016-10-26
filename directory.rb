@@ -4,7 +4,7 @@
 def interactive_menu
     loop do
         print_menu
-        process(gets.chomp)
+        process(STDIN.gets.chomp)
     end
 end
 
@@ -58,25 +58,25 @@ end
 def input_students
     # get the name & the cohort
     ask_info
-    name = gets.rstrip
-    cohort = gets.rstrip
+    name = STDIN.gets.rstrip
+    cohort = STDIN.gets.rstrip
     
     # while the name & the cohort are not empty, repeat this code
     while !name.empty? || !cohort.empty? do
         name = "Anonymous" if name.empty?
         cohort = "november" if cohort.empty?
         confirm_info(name, cohort)
-        conf_n = gets.rstrip
+        conf_n = STDIN.gets.rstrip
         
         # while their info are wrong, repeat this code
         while conf_n != "1"
             ask_info
-            name = gets.rstrip
-            cohort = gets.rstrip
+            name = STDIN.gets.rstrip
+            cohort = STDIN.gets.rstrip
             name = "Anonymous" if name.empty?
             cohort = "november" if cohort.empty?
             confirm_info(name, cohort)
-            conf_n = gets.rstrip
+            conf_n = STDIN.gets.rstrip
         end
     
         # add the student hash to the array
@@ -88,8 +88,8 @@ def input_students
 
         # get another info from the user
         ask_info
-        name = gets.rstrip
-        cohort = gets.rstrip
+        name = STDIN.gets.rstrip
+        cohort = STDIN.gets.rstrip
     end
     # return the array of students
     @students
@@ -98,7 +98,7 @@ end
 def save_students
     # open the file for writing
     file = File.open("students.csv", "w")
-    # iterate over the array of students
+    # ijterate over the array of students
     @students.each do |student|
         student_data = [student[:name], student[:cohort]]
         csv_line = student_data.join(",")
@@ -107,8 +107,20 @@ def save_students
     file.close
 end
 
-def load_students
-    file = File.open("students.csv", "r")
+def try_load_students
+    filename = ARGV.first # first argument from the command line
+    return if filename.nil? # get out of the method if it isn't given
+    if File.exists?(filename) # if it exists
+        load_students(filename)
+        puts "Loaded #{@students.count} from #{filename}"
+    else # if it doesn't exist
+        puts "Sorry, #{filename} doesn't exist."
+        exit # quit the program
+    end
+end
+
+def load_students(filename = "students.csv")
+    file = File.open(filename, "r")
     file.readlines.each do |line|
         name, cohort = line.chomp.split(',')
         @students << {name: name, cohort: cohort.to_sym}
@@ -136,4 +148,5 @@ def show_students
 end
 
 # nothing happens until we call the methods
+try_load_students
 interactive_menu
