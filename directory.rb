@@ -28,7 +28,7 @@ def process(selection)
         save
         feedback(action = "Save")
       when "4" 
-        filename = "none"
+        filename = "filename to load is not given yet"
         load(filename)
         feedback(action = "Load")
       when "9" then exit # this will cause the program to terminate
@@ -52,7 +52,7 @@ def input
 end
 
 def load(filename)
-  if filename == "none"
+  if filename == "filename to load is not given yet"
     puts "Please enter the filename to load:"
     filename = STDIN.gets.chomp
     file_exist?(filename)
@@ -102,15 +102,6 @@ def try_load
   filename = ARGV.first# first argument from the command line
   filename = "students.csv" if filename.nil? # get out of the method if it isn't given
   file_exist?(filename)
-=begin
-  if File.exists?(filename) # if it exists
-    load(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-  else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
-  end
-=end
 end
 
 def feedback(action)
