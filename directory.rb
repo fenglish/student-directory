@@ -4,8 +4,8 @@ require 'csv'
 def menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to file"
+  puts "4. Load the list from file"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -55,6 +55,7 @@ def load(filename)
   if filename == "none"
     puts "Please enter the filename to load:"
     filename = STDIN.gets.chomp
+    file_exist?(filename)
     @students = []
   end
   CSV.foreach(filename) do |line|
@@ -100,6 +101,8 @@ end
 def try_load
   filename = ARGV.first# first argument from the command line
   filename = "students.csv" if filename.nil? # get out of the method if it isn't given
+  file_exist?(filename)
+=begin
   if File.exists?(filename) # if it exists
     load(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -107,10 +110,21 @@ def try_load
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
   end
+=end
 end
 
 def feedback(action)
   puts "\n#{action} successfully!\n\n"
+end
+
+def file_exist?(filename)
+  if File.exists?(filename) # if it exists
+    load(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
 end
 
 try_load
